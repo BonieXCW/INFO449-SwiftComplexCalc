@@ -28,6 +28,92 @@ print("Welcome back to the UW Calculator")
 //: IMPORTANT: If any tests are commented out, you will be graded a zero (0)! You should never be in the habit of eliminating tests to make the code pass.
 //:
 class Calculator {
+    
+    func add (lhs: Int, rhs: Int) -> Int {
+        return lhs+rhs
+    }
+    
+    func add (_ list: [Int]) -> Int {
+        var result = 0;
+        for number in list {
+            result += number
+        }
+        return result
+    }
+    
+    func add(lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
+        let left = lhs.0 + rhs.0
+        let right = lhs.1 + rhs.1
+        return (left, right)
+    }
+    
+    func add(lhs: [String : Int], rhs: [String : Int]) -> ([String : Int]) {
+        let left  = lhs["x"]! + rhs["x"]!
+        let right = lhs["y"]! + rhs["y"]!
+        return (["x": left, "y": right])
+    }
+    
+    func subtract(lhs: Int, rhs: Int) -> Int {
+        return lhs-rhs
+    }
+    
+    func subtract(lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
+        let left = lhs.0 - rhs.0
+        let right = lhs.1 - rhs.1
+        return (left, right)
+    }
+    
+    func subtract(lhs: [String : Int], rhs: [String : Int]) -> ([String : Int]) {
+        let left  = lhs["x"]! - rhs["x"]!
+        let right = lhs["y"]! - rhs["y"]!
+        return (["x": left, "y": right])
+    }
+    
+    func multiply(lhs: Int, rhs: Int) -> Int {
+        return lhs*rhs
+    }
+    
+    func multiply(_ list: [Int]) -> Int {
+        if list.isEmpty {
+            return 0
+        }
+        var result = 1;
+        for number in list {
+            result *= number
+        }
+        return result
+    }
+    
+    func count(_ list:[Int]) -> Int {
+        return list.count
+    }
+    
+    func divide(lhs: Int, rhs: Int) -> Int {
+        if (rhs == 0) {
+            return 0
+        }
+        return lhs/rhs
+    }
+    
+    func avg(_ list:[Int]) -> Int {
+        if(list.count == 0) {
+            return 0
+        }
+        let sum = add(list)
+        return sum/list.count
+    }
+    
+    func mathOp(lhs: Int, rhs: Int, op: (Int, Int) -> Int) -> Int {
+        return op(lhs, rhs)
+    }
+    
+    func mathOp(args list: [Int], beg: Int, op: (Int, Int) -> Int) -> Int {
+        var result = beg
+        for number in list {
+            result = op(result, number)
+        }
+        return result
+    }
 }
 
 //: Don't change the name of this object (`calc`); it's used in all the tests.
@@ -43,7 +129,14 @@ let calc = Calculator()
 //: Keep in mind that writing new tests may reveal ambiguity in the specification above--if that's the case, document the ambiguity, declare what you think *should* happen, and write the test to test for it.
 
 // ===== Your tests go here
-
+calc.add([-1, -3, -5, -7, -9]) == -25
+calc.multiply(lhs: 15, rhs: 0) == 0
+calc.multiply(lhs: -15, rhs: -1) == -15
+calc.avg([]) == 0
+calc.multiply([]) == 0
+calc.add([]) == 0
+calc.divide(lhs: 10, rhs: 0) == 0
+calc.divide(lhs: 0, rhs: 10) == 0
 //: ---
 //: ## Test code block
 //: Do not modify the code in this section
@@ -52,7 +145,7 @@ calc.subtract(lhs: 2, rhs: 2) == 0
 calc.multiply(lhs: 2, rhs: 2) == 4
 calc.divide(lhs: 2, rhs: 2) == 1
 
-calc.mathOp(lhs: 5, rhs: 5, op: { (lhs: Int, rhs: Int) -> Int in (lhs + rjs) + (lhs * rhs) }) == 35
+calc.mathOp(lhs: 5, rhs: 5, op: { (lhs: Int, rhs: Int) -> Int in (lhs + rhs) + (lhs * rhs) }) == 35
     // This style is one way of writing an anonymous function
 calc.mathOp(lhs: 10, rhs: -5, op: { ($0 + $1) + ($0 - $1) }) == 20
     // This is the second, more terse, style; either works
